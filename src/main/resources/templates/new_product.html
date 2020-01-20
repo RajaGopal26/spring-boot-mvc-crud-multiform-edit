@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Create New Product</title>
+<style type="text/css">
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1rem;
+	line-height: 1.58;
+	color: #333;
+	background-color: #f4f4f4;
+	height: 100%;
+}
+
+body:before {
+	height: 50%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgb(251, 207, 110);
+	content: "";
+	z-index: 0;
+}
+
+input.txtBox {
+	border: 1px solid #080807;
+	margin: 10px 20px;
+}
+
+.form-control {
+	width: 100%;
+	min-height: 38px;
+	font-size: 15px;
+	/* 	border: 1px solid #c8c8c8; */
+	margin: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 20px;
+	margin-bottom: 0px;
+	color: rgb(251, 207, 110);
+}
+
+h1 {
+	font-size: 1.7em;
+}
+
+.contact-container {
+	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #fff;
+	box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+	margin-top: 30px;
+	height: calc(100% - 60px);
+	max-height: 700px;
+	position: relative;
+}
+
+button.default {
+	background-color: #e8e8e8;
+	color: #333;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+td {
+	padding: 0px;
+}
+
+button.primary {
+	background-color: rgb(251, 207, 110);
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+	color: #fff;
+}
+</style>
+</head>
+<body class="body">
+	<div class="contact-container" align="center">
+		<h1>Create New Product</h1>
+		<form action="#" th:action="@{/save}" th:object="${product}"
+			method="post" class="form-control">
+
+			<table border="0" cellpadding="10">
+				<tr>
+					<td>Product Name:</td>
+					<td><input class="txtBox" type="text" th:field="*{name}" /></td>
+				</tr>
+				<tr>
+					<td>Brand:</td>
+					<td><input class="txtBox" type="text" th:field="*{brand}" /></td>
+				</tr>
+				<tr>
+					<td>Made In:</td>
+					<td><input class="txtBox" type="text" th:field="*{madein}" /></td>
+				</tr>
+				<tr>
+					<td>Price:</td>
+					<td><input class="txtBox" type="text" th:field="*{price}" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><button class="primary" type="submit"
+							style="margin-left: 150px;">Save</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+
+</body>
+</html>

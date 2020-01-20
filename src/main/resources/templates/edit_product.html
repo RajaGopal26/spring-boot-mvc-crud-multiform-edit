@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<style type="text/css">
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1rem;
+	line-height: 1.58;
+	color: #333;
+	background-color: #f4f4f4;
+	height: 100%;
+}
+
+body:before {
+	height: 50%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgb(251, 207, 110);
+	content: "";
+	z-index: 0;
+}
+
+input.txtBox {
+	border: 1px solid #080807;
+	margin: 10px 20px;
+}
+
+.form-control {
+	width: 100%;
+	min-height: 38px;
+	font-size: 15px;
+	/* 	border: 1px solid #c8c8c8; */
+	margin: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 20px;
+	margin-bottom: 0px;
+	color: rgb(251, 207, 110);
+}
+
+h1 {
+	font-size: 1.7em;
+}
+
+.contact-container {
+	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #fff;
+	box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+	margin-top: 30px;
+	height: calc(100% - 60px);
+	max-height: 700px;
+	position: relative;
+}
+
+button.default {
+	background-color: #e8e8e8;
+	color: #333;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+td {
+	padding: 0px;
+}
+
+button.primary {
+	background-color: rgb(251, 207, 110);
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+	color: #fff;
+}
+</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+<script src="main.js"></script>
+<script>
+         let formElements = [];
+            let changedFields = [];
+            let dataJson = {};
+            let prefix = 'http://localhost:8089/';
+        $(document).ready(function () {
+           
+
+
+            $('#testForm input,#testForm select').each(function () {
+                let thisEle = $(this);
+                formElements.push(thisEle);
+
+                console.log("formElements ", formElements);
+            });
+
+
+            $('#testForm input,#testForm select').change(function () {
+                let alreadyExists = false;
+
+                if (changedFields.length > 0) {
+                    for (let c of changedFields) {
+                        if ($(this)[0].name == c[0].name) {
+                            alreadyExists = true;
+                        }
+                        if (alreadyExists) {
+                            changedFields.pop(c);
+                            console.log("c popped", c);
+                        }
+                    }
+                }
+
+                changedFields.push($(this));
+                console.log("this changed", $(this));
+                console.log("changedFields ", changedFields);
+            });
+
+            // $("#saveBtn").submit(function () {
+            //     console.log("changedFields ", changedFields[0][0]["name"]);
+            //     alert("i'm working");
+
+            //     dataJson[changedFields[0][0]["name"]] = changedFields[0][0]["value"];
+            //     console.log("dataJson dataJson ", dataJson);
+
+            //     alert('product updated!!!');
+                /* $("#subBtn").click(function () {
+                     for (let f of formElements) {
+                         for (let c of changedFields) {
+                             console.log("loop");
+                             if (f[0].name == c[0].name) {
+                                 console.log("samee ", f[0].name);
+                                 if (f[0].value != c[0].value) {
+                                     console.log("changed ", f);
+                                 }
+                                 else {
+                                     console.log("no change ", f);
+                                 }
+                             }
+                         }
+                     }
+                 }); */
+            // });
+
+        });
+
+
+     function submitClick(){
+    	 if(changedFields.length == 0){
+        console.log("Nothing Updated");
+              alert("Nothing edited");
+     }
+    	 else{
+
+                // default id
+                dataJson[formElements[0][0]["name"]] = formElements[0][0]["value"];
+
+                // chnaged
+                  for (let modify of changedFields) {
+                dataJson[modify[0]["name"]] = modify[0]["value"];
+                console.log("dataJson dataJson ", dataJson);
+                  }
+//                 alert('product updated!!!');
+                
+                $.ajax({
+                    type: 'POST',
+                    url:  prefix + '/update',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(dataJson),
+                    dataType: 'json',
+                    async: true,
+                    success: function(result) {
+//                     	  alert('product updated!!!');
+                    	  
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+//                     	  alert('product not updated!!!');
+                    	  window.location.href = '/';
+                    }
+                });
+        }}
+    </script>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/main.css" />
+<title>Edit Product</title>
+</head>
+
+<body class="body">
+	<div align="center" class="contact-container">
+		<h1>Edit Product</h1>
+		<br />
+		<form th:id="testForm" action="#" th:action="@{/save}"
+			th:object="${product}" method="post"  class="form-control">
+
+			<table border="0" cellpadding="10">
+				<tr>
+					<td>Product ID:</td>
+					<td><input  class="txtBox" type="text" th:field="*{id}" readonly /></td>
+				</tr>
+				<tr>
+					<td>Product Name:</td>
+					<td><input  class="txtBox" type="text" th:field="*{name}" /></td>
+				</tr>
+				<tr>
+					<td>Brand:</td>
+					<td><input class="txtBox" type="text" name="brand" th:field="*{brand}" /></td>
+				</tr>
+				<tr>
+					<td>Made In:</td>
+					<td><input class="txtBox" type="text" th:field="*{madein}" /></td>
+				</tr>
+				<tr>
+					<td>Price:</td>
+					<td><input class="txtBox" type="text" th:field="*{price}" /></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button class="primary" style="margin-left: 150px;" type="button" id="saveBtn" onclick="submitClick()">Save</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+
+</html>

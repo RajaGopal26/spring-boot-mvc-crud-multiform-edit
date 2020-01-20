@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+    <script>
+         let formElements = [];
+            let changedFields = [];
+            let dataJson = {};
+        $(document).ready(function () {
+           
+
+
+            $('#testForm input,#testForm select').each(function () {
+                let thisEle = $(this);
+                formElements.push(thisEle);
+
+                console.log("formElements ", formElements);
+            });
+
+
+            $('#testForm input,#testForm select').change(function () {
+                let alreadyExists = false;
+
+                if (changedFields.length > 0) {
+                    for (let c of changedFields) {
+                        if ($(this)[0].name == c[0].name) {
+                            alreadyExists = true;
+                        }
+                        if (alreadyExists) {
+                            changedFields.pop(c);
+                            console.log("c popped", c);
+                        }
+                    }
+                }
+
+                changedFields.push($(this));
+                console.log("this changed", $(this));
+                console.log("changedFields ", changedFields);
+            });
+
+            // $("#saveBtn").submit(function () {
+            //     console.log("changedFields ", changedFields[0][0]["name"]);
+            //     alert("i'm working");
+
+            //     dataJson[changedFields[0][0]["name"]] = changedFields[0][0]["value"];
+            //     console.log("dataJson dataJson ", dataJson);
+
+            //     alert('product updated!!!');
+                /* $("#subBtn").click(function () {
+                     for (let f of formElements) {
+                         for (let c of changedFields) {
+                             console.log("loop");
+                             if (f[0].name == c[0].name) {
+                                 console.log("samee ", f[0].name);
+                                 if (f[0].value != c[0].value) {
+                                     console.log("changed ", f);
+                                 }
+                                 else {
+                                     console.log("no change ", f);
+                                 }
+                             }
+                         }
+                     }
+                 }); */
+            // });
+
+        });
+
+
+     function submitClick(){
+        console.log("changedFields ", changedFields[0][0]["name"]);
+                alert("i'm working");
+
+                // default id
+                dataJson[formElements[0][0]["name"]] = formElements[0][0]["value"];
+
+                // chnaged
+                dataJson[changedFields[0][0]["name"]] = changedFields[0][0]["value"];
+                console.log("dataJson dataJson ", dataJson);
+
+                alert('product updated!!!');
+        }
+    </script>
+    <meta charset="utf-8" />
+    <title>Edit Product</title>
+</head>
+
+<body>
+    <div align="center">
+        <h1>Edit Product</h1>
+        <br />
+        <form th:id="testForm" action="#" th:action="@{/save}" th:object="${product}" method="post">
+
+            <table border="0" cellpadding="10">
+                <tr>
+                    <td>Product ID:</td>
+                    <td>
+                        <input type="text" th:field="*{id}" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Product Name:</td>
+                    <td>
+                        <input type="text" th:field="*{name}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Brand:</td>
+                    <td>
+                        <input type="text" name="brand" th:field="*{brand}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Made In:</td>
+                    <td>
+                        <input type="text" th:field="*{madein}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td>
+                        <input type="text" th:field="*{price}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" id="saveBtn" onclick="submitClick()">Save</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+
+</html>
