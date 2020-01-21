@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <style type="text/css">
 html, body {
 	height: 100%;
@@ -16,7 +22,7 @@ body {
 	font-size: 1rem;
 	line-height: 1.58;
 	color: #333;
-	background-color: #f4f4f4;
+	background-color: #e2e2e2;
 	height: 100%;
 }
 
@@ -45,13 +51,14 @@ input.txtBox {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	margin-top: 20px;
-	margin-bottom: 0px;
+	font-weight: bold;
 	color: rgb(251, 207, 110);
 }
 
 h1 {
-	font-size: 1.7em;
+	font-size: 2.3em;
+	padding: 10px;
+	margin: 0px;
 }
 
 .contact-container {
@@ -72,8 +79,17 @@ button.default {
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
 }
 
-td {
+.addItems {
+	text-align: right;
+	padding: 10px;
+	margin-right: 63px;
+	font-size: medium;
+	color: rgb(251, 207, 110);
+}
+
+td, th {
 	padding: 0px;
+	font-size: medium;
 }
 
 button.primary {
@@ -81,42 +97,66 @@ button.primary {
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
 	color: #fff;
 }
+
+.glyphicon-plus:before {
+	margin: 5px;
+	color: rgb(251, 207, 110);
+}
+
+.glyphicon-remove:before {
+	margin: 5px;
+	color: rgb(251, 207, 110);
+}
+
+.iconColor {
+	color: #333;
+}
+
+.glyphicon-edit:before {
+	margin: 5px;
+	color: rgb(251, 207, 110);
+}
 </style>
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
 <title>Product Manager</title>
 <link rel="stylesheet" href="./main.css" />
 </head>
 <body class="body">
 	<div align="center" class="contact-container">
-    <h1>Product List</h1>
-    <a href="new">Create New Product</a>
-    <br/><br/>
-    <table border="1" cellpadding="10">
-        <thead>
-            <tr>
-                <th>Product ID</th>
-                <th>Name</th>
-                <th>Brand</th>
-                <th>Made In</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="product : ${listProducts}">
-            	<td th:text="${product.id}">Product ID</td>
-                <td th:text="${product.name}">Name</td>
-                <td th:text="${product.brand}">Brand</td>
-                <td th:text="${product.madein}">Made in</td>
-                <td th:text="${product.price}">Price</td>
-                <td>
-                	<a th:href="@{'/edit/' + ${product.id}}">Edit</a>
-                	&nbsp;&nbsp;&nbsp;
-                	<a th:href="@{'/delete/' + ${product.id}}">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>    
+		<h1>Product List</h1>
+		<div class="addItems">
+			<a href="new"> <span class="glyphicon glyphicon-plus"
+				aria-hidden="true"> </span> <span class="iconColor">Add</span>
+			</a>
+		</div>
+		<table border="1" cellpadding="10">
+			<thead>
+				<tr>
+					<th>Product ID</th>
+					<th>Name</th>
+					<th>Brand</th>
+					<th>Made In</th>
+					<th>Price</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product : ${listProducts}">
+					<td th:text="${product.id}">Product ID</td>
+					<td th:text="${product.name}">Name</td>
+					<td th:text="${product.brand}">Brand</td>
+					<td th:text="${product.madein}">Made in</td>
+					<td th:text="${product.price}">Price</td>
+					<td><a th:href="@{'/edit/' + ${product.id}}"><span
+							class="glyphicon glyphicon-edit" aria-hidden="true"></span> <span
+							class="iconColor">Edit</span> </a><a
+						th:href="@{'/delete/' + ${product.id}}"> <span
+							class="glyphicon glyphicon-remove" aria-hidden="true"></span> <span
+							class="iconColor">Delete</span>
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

@@ -2,6 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <meta charset="utf-8" />
 <title>Create New Product</title>
 <style type="text/css">
@@ -18,7 +23,7 @@ body {
 	font-size: 1rem;
 	line-height: 1.58;
 	color: #333;
-	background-color: #f4f4f4;
+	background-color: #e2e2e2;
 	height: 100%;
 }
 
@@ -38,22 +43,15 @@ input.txtBox {
 	margin: 10px 20px;
 }
 
-.form-control {
-	width: 100%;
-	min-height: 38px;
-	font-size: 15px;
-	/* 	border: 1px solid #c8c8c8; */
-	margin: 10px;
-}
-
 h1, h2, h3, h4, h5, h6 {
-	margin-top: 20px;
-	margin-bottom: 0px;
+	font-weight: bold;
 	color: rgb(251, 207, 110);
 }
 
 h1 {
-	font-size: 1.7em;
+	font-size: 2.3em;
+	padding: 10px;
+	margin: 0px;
 }
 
 .contact-container {
@@ -74,8 +72,9 @@ button.default {
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
 }
 
-td {
+td, th {
 	padding: 0px;
+	font-size: medium;
 }
 
 button.primary {
@@ -89,7 +88,7 @@ button.primary {
 	<div class="contact-container" align="center">
 		<h1>Create New Product</h1>
 		<form action="#" th:action="@{/save}" th:object="${product}"
-			method="post" class="form-control">
+			method="post" >
 
 			<table border="0" cellpadding="10">
 				<tr>
